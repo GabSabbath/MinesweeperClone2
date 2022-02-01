@@ -5,6 +5,7 @@ import java.util.Random;
 public class Board {
     private Tile[][] gameBoard;
     private boolean gameover;
+    public boolean isGameover(){ return gameover; }
 
     public int getHeight (){ return gameBoard[0].length; }
     public int getWidth (){ return gameBoard.length; }
@@ -82,14 +83,12 @@ public class Board {
     }
     public void discover(int x, int y){
         var discoveredTile = getTile(x, y);
-        if(!discoveredTile.isFlagged()){
-            if(discoveredTile.isBomb()){
-                gameover = true;
-                discoverAllTiles();
-            }
-            else{
-                discoveredTile.discover();
-            }
+        if(discoveredTile.isBomb()){
+            gameover = true;
+            discoverAllTiles();
+        }
+        else{
+            discoveredTile.discover();
         }
     }
 }

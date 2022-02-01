@@ -7,12 +7,17 @@ public class EmptyTile extends Tile{
 
     @Override
     public void discover() {
-        setVisible();
-        for (var adjacentTile: adjacentTiles) {
-            if(!adjacentTile.isBomb() &&
-                    !adjacentTile.isVisible() &&
-                    !adjacentTile.isFlagged()){
-                discover();
+        if(!isFlagged()){
+            setVisible();
+            if(getNumberOfAdjacentBombs() == 0){
+                for (var adjacentTile: adjacentTiles) {
+                    if(!adjacentTile.isBomb() &&
+                            !adjacentTile.isVisible() &&
+                            !adjacentTile.isFlagged()){
+
+                        adjacentTile.discover();
+                    }
+                }
             }
         }
     }
