@@ -32,6 +32,11 @@ public class Board {
             Random rng = new Random();
             int randomX = rng.nextInt(gameBoard.length);
             int randomY = rng.nextInt(gameBoard[0].length);
+
+            while(gameBoard[randomX][randomY].isBomb()){
+                randomX = rng.nextInt(gameBoard.length);
+                randomY = rng.nextInt(gameBoard[0].length);
+            }
             gameBoard[randomX][randomY] = new BombTile();
         }
     }
@@ -45,42 +50,34 @@ public class Board {
                 boolean isAtTop = y >= gameBoard[0].length - 1;
                 boolean isAtBottom = y <= 0;
 
-                if(!isAtFarRight){
+                if(!isAtFarRight)
                     targetTile.addAdjacentTile(gameBoard[x+1][y]);
-                }
-                if(!isAtFarRight && !isAtTop){
+                if(!isAtFarRight && !isAtTop)
                     targetTile.addAdjacentTile(gameBoard[x+1][y+1]);
-                }
-                if(!isAtTop){
+                if(!isAtTop)
                     targetTile.addAdjacentTile(gameBoard[x][y+1]);
-                }
-                if(!isAtTop && !isAtFarLeft){
+                if(!isAtTop && !isAtFarLeft)
                     targetTile.addAdjacentTile(gameBoard[x-1][y+1]);
-                }
-                if(!isAtFarLeft){
+                if(!isAtFarLeft)
                     targetTile.addAdjacentTile(gameBoard[x-1][y]);
-                }
-                if(!isAtFarLeft && !isAtBottom){
+                if(!isAtFarLeft && !isAtBottom)
                     targetTile.addAdjacentTile(gameBoard[x-1][y-1]);
-                }
-                if(!isAtBottom){
+                if(!isAtBottom)
                     targetTile.addAdjacentTile(gameBoard[x][y-1]);
-                }
-                if(!isAtFarRight && !isAtBottom){
+                if(!isAtFarRight && !isAtBottom)
                     targetTile.addAdjacentTile(gameBoard[x+1][y-1]);
-                }
-
             }
         }
     }
 
     public void discoverAllTiles(){
-        for (var row:gameBoard) {
+        for (Tile[] row:gameBoard) {
             for (Tile tile:row) {
                 tile.setVisible();
             }
         }
     }
+
     public void discover(int x, int y){
         var discoveredTile = getTile(x, y);
         if(discoveredTile.isBomb()){
